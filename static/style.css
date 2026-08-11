@@ -1,0 +1,779 @@
+/* ==========================
+   Google Font
+========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+
+    background:#eef3ff;
+
+    color:#222;
+
+}
+
+/*============================
+Sidebar
+=============================*/
+
+.sidebar{
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    width:260px;
+
+    height:100vh;
+
+    background:linear-gradient(180deg,#4f46e5,#312e81);
+
+    color:white;
+
+    padding:30px 20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    box-shadow:0 0 30px rgba(0,0,0,.15);
+
+}
+
+.logo{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    margin-bottom:50px;
+
+}
+
+.logo i{
+
+    margin-right:8px;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+}
+
+.sidebar li{
+
+    margin-bottom:18px;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+    font-weight:500;
+
+}
+
+.sidebar a:hover{
+
+    background:rgba(255,255,255,.18);
+
+}
+
+.sidebar a.active{
+
+    background:white;
+
+    color:#4f46e5;
+
+}
+
+.admin-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:15px;
+
+    background:rgba(255,255,255,.15);
+
+    border-radius:15px;
+
+}
+
+.admin-box i{
+
+    font-size:38px;
+
+}
+
+/*============================
+Main
+=============================*/
+
+.main{
+
+    margin-left:280px;
+
+    padding:35px;
+
+}
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:40px;
+
+}
+
+.topbar h2{
+
+    font-size:32px;
+
+    font-weight:700;
+
+}
+
+.topbar p{
+
+    color:#777;
+
+}
+
+.profile{
+
+    background:white;
+
+    padding:12px 22px;
+
+    border-radius:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.profile i{
+
+    font-size:25px;
+
+}
+
+/*============================
+Section
+=============================*/
+
+.section-title{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+}
+
+/*============================
+Cards
+=============================*/
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:22px;
+
+}
+
+.card-box{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card-box:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.card-box h1{
+
+    margin:15px 0;
+
+    font-size:34px;
+
+}
+
+.card-box p{
+
+    color:#666;
+
+}
+
+.icon{
+
+    font-size:40px;
+
+}
+
+.blue{
+
+    color:#2563eb;
+
+}
+
+.green{
+
+    color:#16a34a;
+
+}
+
+.red{
+
+    color:#dc2626;
+
+}
+
+.purple{
+
+    color:#7c3aed;
+
+}
+
+/*============================
+Panels
+=============================*/
+
+.panel{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    margin-top:20px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.panel h4{
+
+    margin-bottom:20px;
+
+    font-weight:600;
+
+}
+/* ==========================
+   Form Styling
+========================== */
+
+form label{
+    font-weight:600;
+    margin-bottom:8px;
+    display:block;
+    color:#374151;
+}
+
+.form-control,
+.form-select{
+
+    height:52px;
+
+    border-radius:12px;
+
+    border:2px solid #e5e7eb;
+
+    padding:12px 15px;
+
+    box-shadow:none;
+
+    transition:.3s;
+
+    background:#fafafa;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    border-color:#4f46e5;
+
+    box-shadow:0 0 0 4px rgba(79,70,229,.15);
+
+    background:white;
+
+}
+
+textarea.form-control{
+
+    min-height:120px;
+
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-primary{
+
+    background:#4f46e5;
+
+    border:none;
+
+    padding:14px 35px;
+
+}
+
+.btn-primary:hover{
+
+    background:#4338ca;
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 20px rgba(79,70,229,.25);
+
+}
+
+/* ==========================
+   Result Card
+========================== */
+
+.result-panel{
+
+    min-height:520px;
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+}
+
+.success-icon{
+
+    font-size:90px;
+
+    color:#22c55e;
+
+}
+
+.fail-icon{
+
+    font-size:90px;
+
+    color:#ef4444;
+
+}
+
+.salary{
+
+    color:#4f46e5;
+
+    font-weight:700;
+
+    margin:15px 0;
+
+}
+
+.empty-box{
+
+    text-align:center;
+
+    color:#777;
+
+}
+
+.empty-box i{
+
+    opacity:.8;
+
+}
+
+/* ==========================
+   Progress Bars
+========================== */
+
+.progress{
+
+    height:10px;
+
+    border-radius:50px;
+
+    background:#e5e7eb;
+
+    overflow:hidden;
+
+}
+
+.progress-bar{
+
+    border-radius:50px;
+
+}
+
+/* ==========================
+   Table
+========================== */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#f3f4f6;
+
+}
+
+.table th{
+
+    border:none;
+
+    padding:18px;
+
+    font-size:15px;
+
+    color:#555;
+
+}
+
+.table td{
+
+    padding:18px;
+
+    vertical-align:middle;
+
+}
+
+.table tbody tr{
+
+    transition:.3s;
+
+}
+
+.table tbody tr:hover{
+
+    background:#f8f9ff;
+
+}
+
+/* ==========================
+   Avatar
+========================== */
+
+.avatar-circle{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    background:#4f46e5;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:bold;
+
+}
+
+/* ==========================
+   Badges
+========================== */
+
+.badge{
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+/* ==========================
+   Charts
+========================== */
+
+canvas{
+
+    width:100%!important;
+
+    max-height:340px;
+
+}
+
+/* ==========================
+   Scrollbar
+========================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#4f46e5;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#e5e7eb;
+
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media(max-width:992px){
+
+.sidebar{
+
+    width:100%;
+
+    height:auto;
+
+    position:relative;
+
+}
+
+.main{
+
+    margin-left:0;
+
+    padding:20px;
+
+}
+
+.cards{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+.topbar{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.cards{
+
+    grid-template-columns:1fr;
+
+}
+
+.panel{
+
+    padding:18px;
+
+}
+
+.card-box{
+
+    padding:20px;
+
+}
+
+.topbar h2{
+
+    font-size:24px;
+
+}
+
+.section-title{
+
+    font-size:24px;
+
+}
+
+.logo{
+
+    font-size:22px;
+
+}
+
+.sidebar a{
+
+    padding:12px;
+
+}
+
+.btn-primary{
+
+    width:100%;
+
+}
+
+.table{
+
+    font-size:14px;
+
+}
+
+}
+/* ==========================
+   Smooth Animations
+========================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+.panel,
+.card-box {
+    animation: fadeUp .7s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================
+   Hover Effects
+========================== */
+
+.card-box:hover,
+.panel:hover {
+    box-shadow: 0 20px 40px rgba(79,70,229,.15);
+}
+
+.sidebar a:hover i {
+    transform: scale(1.15);
+    transition: .3s;
+}
+
+/* ==========================
+   Card Border Accent
+========================== */
+
+.card-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(#4f46e5,#7c3aed);
+}
+
+/* ==========================
+   Panel Titles
+========================== */
+
+.panel h4 {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.panel h4::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 70px;
+    height: 4px;
+    background: #4f46e5;
+    border-radius: 20px;
+}

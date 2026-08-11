@@ -1,0 +1,7 @@
+Feature_Type,Missing_Value_Method,Encoding,Scaling
+Numeric,Median / Mean,None,Usually required
+Nominal Categorical,Most Frequent,One-Hot,Usually not required
+Ordinal Categorical,Most Frequent,Ordinal,Depends on model
+High-Cardinality Categorical,Most Frequent / Appropriate,Target Encoding with leakage control,Depends on model
+Tree-Based Model,Imputation Required,Model dependent,Usually not required
+Linear/KNN/SVM Model,Imputation Required,One-Hot / appropriate encoding,Usually required
