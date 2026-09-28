@@ -1,219 +1,79 @@
 # ============================================================
-# optimization.py
-# HYPERPARAMETER OPTIMIZATION + LEARNING CURVE
+# analysis.py
+# VALIDATION CURVE + McNEMAR'S TEST + PAIRED BOOTSTRAP
 # ============================================================
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn.model_selection import (
-    GridSearchCV,
-    RandomizedSearchCV,
-    learning_curve
-)
+from sklearn.model_selection import validation_curve
 from sklearn.metrics import accuracy_score
+from scipy.stats import chi2
 
 from train_model1 import (
     X_train,
     y_train,
-    X_val,
-    y_val
+    X_test,
+    y_test,
+    random_forest_pipeline
 )
 
-from train_model1 import random_forest_pipeline
-
-
-# ============================================================
-# 1. GRID SEARCH
-# ============================================================
-
-print("\n========================================")
-print("GRID SEARCH")
-print("========================================")
-
-grid_params = {
-    "model__n_estimators": [100, 200],
-    "model__max_depth": [None, 10, 20],
-    "model__min_samples_split": [2, 5]
-}
-
-grid_search = GridSearchCV(
-    estimator=random_forest_pipeline,
-    param_grid=grid_params,
-    cv=5,
-    scoring="accuracy",
-    n_jobs=-1
+from evaluate_model1 import (
+    logistic_pred,
+    random_forest_pred,
+    gradient_boosting_pred
 )
 
-grid_search.fit(X_train, y_train)
-
-print("\nBest Grid Search Parameters:")
-print(grid_search.best_params_)
-
-print("\nBest Grid Search Score:")
-print(round(grid_search.best_score_, 4))
-
 
 # ============================================================
-# 2. RANDOMIZED SEARCH
+# 1. VALIDATION CURVE
 # ============================================================
 
 print("\n========================================")
-print("RANDOMIZED SEARCH")
+print("VALIDATION CURVE")
 print("========================================")
 
-random_params = {
-    "model__n_estimators": [100, 200, 300, 400],
-    "model__max_depth": [None, 10, 20, 30],
-    "model__min_samples_split": [2, 5, 10],
-    "model__min_samples_leaf": [1, 2, 4]
-}
+param_range = [50, 100, 150, 200, 250, 300]
 
-random_search = RandomizedSearchCV(
-    estimator=random_forest_pipeline,
-    param_distributions=random_params,
-    n_iter=10,
-    cv=5,
-    scoring="accuracy",
-    random_state=42,
-    n_jobs=-1
-)
-
-random_search.fit(X_train, y_train)
-
-print("\nBest Randomized Search Parameters:")
-print(random_search.best_params_)
-
-print("\nBest Randomized Search Score:")
-print(round(random_search.best_score_, 4))
-
-
-# ============================================================
-# 3. SELECT BEST MODEL
-# ============================================================
-
-best_model = random_search.best_estimator_
-
-
-# ============================================================
-# 4. PARAMETER SEARCH
-# ============================================================
-
-print("\n========================================")
-print("PARAMETER OPTIMIZATION")
-print("========================================")
-
-candidate_params = [
-    {
-        "model__n_estimators": 100,
-        "model__max_depth": 10
-    },
-    {
-        "model__n_estimators": 200,
-        "model__max_depth": 10
-    },
-    {
-        "model__n_estimators": 200,
-        "model__max_depth": 20
-    },
-    {
-        "model__n_estimators": 300,
-        "model__max_depth": 20
-    },
-    {
-        "model__n_estimators": 300,
-        "model__max_depth": 30
-    }
-]
-
-best_score = -np.inf
-best_params = None
-optimized_model = None
-
-
-for params in candidate_params:
-
-    model = best_model.set_params(**params)
-
-    model.fit(X_train, y_train)
-
-    validation_pred = model.predict(X_val)
-
-    score = accuracy_score(
-        y_val,
-        validation_pred
-    )
-
-    print(
-        f"Parameters: {params} | "
-        f"Validation Accuracy: {score:.4f}"
-    )
-
-    if score > best_score:
-        best_score = score
-        best_params = params
-        optimized_model = model
-
-
-print("\nBest Parameters:")
-print(best_params)
-
-print("\nBest Validation Accuracy:")
-print(round(best_score, 4))
-
-
-# ============================================================
-# 5. LEARNING CURVE
-# ============================================================
-
-print("\n========================================")
-print("LEARNING CURVE")
-print("========================================")
-
-train_sizes, train_scores, validation_scores = learning_curve(
-    optimized_model,
+train_scores, validation_scores = validation_curve(
+    random_forest_pipeline,
     X_train,
     y_train,
+    param_name="model__n_estimators",
+    param_range=param_range,
     cv=5,
     scoring="accuracy",
-    train_sizes=np.linspace(0.1, 1.0, 5),
     n_jobs=-1
 )
 
-
-# ============================================================
-# 6. CALCULATE MEAN SCORES
-# ============================================================
-
 train_mean = train_scores.mean(axis=1)
-
 validation_mean = validation_scores.mean(axis=1)
 
 
 # ============================================================
-# 7. PLOT LEARNING CURVE
+# 2. PLOT VALIDATION CURVE
 # ============================================================
 
 plt.figure(figsize=(8, 6))
 
 plt.plot(
-    train_sizes,
+    param_range,
     train_mean,
     marker="o",
     label="Training Accuracy"
 )
 
 plt.plot(
-    train_sizes,
+    param_range,
     validation_mean,
     marker="o",
     label="Validation Accuracy"
 )
 
-plt.xlabel("Training Set Size")
+plt.xlabel("Number of Estimators")
 plt.ylabel("Accuracy")
 
-plt.title("Learning Curve")
+plt.title("Random Forest Validation Curve")
 
 plt.legend()
 plt.grid(True)
@@ -222,9 +82,142 @@ plt.show()
 
 
 # ============================================================
-# 8. COMPLETION MESSAGE
+# 3. McNEMAR'S TEST
 # ============================================================
 
 print("\n========================================")
-print("OPTIMIZATION COMPLETED")
+print("McNEMAR'S TEST")
 print("========================================")
+
+# Compare Logistic Regression and Random Forest
+
+correct_logistic = logistic_pred == y_test
+correct_rf = random_forest_pred == y_test
+
+# b = Logistic correct, RF wrong
+b = np.sum(
+    correct_logistic & ~correct_rf
+)
+
+# c = Logistic wrong, RF correct
+c = np.sum(
+    ~correct_logistic & correct_rf
+)
+
+print("Logistic correct / RF wrong:", b)
+print("Logistic wrong / RF correct:", c)
+
+
+# McNemar chi-square statistic
+
+if b + c > 0:
+
+    mcnemar_statistic = (
+        (abs(b - c) - 1) ** 2
+    ) / (b + c)
+
+    p_value = 1 - chi2.cdf(
+        mcnemar_statistic,
+        df=1
+    )
+
+else:
+
+    mcnemar_statistic = 0
+    p_value = 1.0
+
+
+print("McNemar Statistic:", round(mcnemar_statistic, 4))
+print("p-value:", round(p_value, 4))
+
+
+# ============================================================
+# 4. PAIRED BOOTSTRAP
+# ============================================================
+
+print("\n========================================")
+print("PAIRED BOOTSTRAP")
+print("========================================")
+
+n_iterations = 1000
+
+rng = np.random.default_rng(42)
+
+differences = []
+
+n_samples = len(y_test)
+
+
+for _ in range(n_iterations):
+
+    # Sample the same test indices for both models
+    indices = rng.integers(
+        0,
+        n_samples,
+        size=n_samples
+    )
+
+    bootstrap_y = y_test.iloc[indices]
+
+    bootstrap_logistic = logistic_pred[indices]
+
+    bootstrap_rf = random_forest_pred[indices]
+
+    logistic_accuracy = accuracy_score(
+        bootstrap_y,
+        bootstrap_logistic
+    )
+
+    rf_accuracy = accuracy_score(
+        bootstrap_y,
+        bootstrap_rf
+    )
+
+    differences.append(
+        rf_accuracy - logistic_accuracy
+    )
+
+
+differences = np.array(differences)
+
+
+# ============================================================
+# 5. BOOTSTRAP CONFIDENCE INTERVAL
+# ============================================================
+
+lower = np.percentile(
+    differences,
+    2.5
+)
+
+upper = np.percentile(
+    differences,
+    97.5
+)
+
+mean_difference = differences.mean()
+
+
+print("Mean Accuracy Difference:", round(mean_difference, 4))
+
+print("95% Confidence Interval:")
+print(
+    "(",
+    round(lower, 4),
+    ",",
+    round(upper, 4),
+    ")"
+)
+
+
+# ============================================================
+# 6. FINAL SUMMARY
+# ============================================================
+
+print("\n========================================")
+print("ANALYSIS COMPLETED")
+print("========================================")
+
+print("\nValidation Curve: Completed")
+print("McNemar's Test: Completed")
+print("Paired Bootstrap: Completed")
